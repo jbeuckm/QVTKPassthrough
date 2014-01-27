@@ -17,7 +17,7 @@ HEADERS  += \
     openni_passthrough_qt.h \
     openni_passthrough.h
 
-FORMS    += mainwindow.ui \
+FORMS    += \
     openni_passthrough.ui
 
 
