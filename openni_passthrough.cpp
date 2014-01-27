@@ -52,7 +52,7 @@ OpenNIPassthrough::OpenNIPassthrough (pcl::OpenNIGrabber& grabber)
   , grabber_(grabber)
   , device_id_ ()
   , cloud_pass_()
-//  , pass_ ()
+  , pass_ ()
   , mtx_ ()
   , ui_ (new Ui::MainWindow)
   , vis_timer_ (new QTimer (this))
@@ -64,7 +64,7 @@ OpenNIPassthrough::OpenNIPassthrough (pcl::OpenNIGrabber& grabber)
 
   ui_->setupUi (this);
 
-  this->setWindowTitle ("PCL OpenNI PassThrough Viewer");
+  this->setWindowTitle ("PCLhttp://www.darwineatscake.com/~darwin6/?id=113 OpenNI PassThrough Viewer");
   vis_.reset (new pcl::visualization::PCLVisualizer ("", false));
   ui_->qvtk_widget->SetRenderWindow (vis_->getRenderWindow ());
   vis_->setupInteractor (ui_->qvtk_widget->GetInteractor (), ui_->qvtk_widget->GetRenderWindow ());
@@ -72,14 +72,14 @@ OpenNIPassthrough::OpenNIPassthrough (pcl::OpenNIGrabber& grabber)
   ui_->qvtk_widget->update (); 
 
   // Start the OpenNI data acquision
-  boost::function<void (const CloudConstPtr&)> f = boost::bind (&OpenNIPassthrough::cloud_cb, this, _1);
+  boost::function<void (const CloudConstPtr&)> f = boost::bind (&OpenNIPassthrough::cloud_callback, this, _1);
   boost::signals2::connection c = grabber_.registerCallback (f);
 
   grabber_.start ();
 
   // Set defaults
-//  pass_.setFilterFieldName ("z");
-//  pass_.setFilterLimits (0.5, 5.0);
+  pass_.setFilterFieldName ("z");
+  pass_.setFilterLimits (0.5, 5.0);
   
   ui_->fieldValueSlider->setRange (5, 50);
   ui_->fieldValueSlider->setValue (50);
@@ -88,15 +88,15 @@ OpenNIPassthrough::OpenNIPassthrough (pcl::OpenNIGrabber& grabber)
 
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
-void OpenNIPassthrough::cloud_cb (const CloudConstPtr& cloud)
+void OpenNIPassthrough::cloud_callback (const CloudConstPtr& cloud)
 {
   QMutexLocker locker (&mtx_);  
   FPS_CALC ("computation");
 
   // Computation goes here
   cloud_pass_.reset (new Cloud);
-//  pass_.setInputCloud (cloud);
-//  pass_.filter (*cloud_pass_);
+  pass_.setInputCloud (cloud);
+  pass_.filter (*cloud_pass_);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////

@@ -263,3 +263,11 @@ else:unix: LIBS += -L$$PWD/../../../../usr/lib/ -lboost_thread
 
 INCLUDEPATH += $$PWD/../../../../usr/include
 DEPENDPATH += $$PWD/../../../../usr/include
+
+win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../../../../usr/lib/release/ -lpcl_filters
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../../../../usr/lib/debug/ -lpcl_filters
+else:symbian: LIBS += -lpcl_filters
+else:unix: LIBS += -L$$PWD/../../../../usr/lib/ -lpcl_filters
+
+INCLUDEPATH += $$PWD/../../../../usr/include
+DEPENDPATH += $$PWD/../../../../usr/include

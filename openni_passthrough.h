@@ -85,14 +85,14 @@ class OpenNIPassthrough : public QMainWindow
         grabber_.stop ();
     }
     
-    void cloud_cb (const CloudConstPtr& cloud);
+    void cloud_callback (const CloudConstPtr& cloud);
 
   protected:
     boost::shared_ptr<pcl::visualization::PCLVisualizer> vis_;
     pcl::OpenNIGrabber& grabber_;
     std::string device_id_;
     CloudPtr cloud_pass_;
-//    pcl::PassThrough<pcl::PointXYZRGBA> pass_;
+    pcl::PassThrough<pcl::PointXYZRGBA> pass_;
 
   private:
     QMutex mtx_;
@@ -100,13 +100,13 @@ class OpenNIPassthrough : public QMainWindow
     QTimer *vis_timer_;
 
   public slots:
-/*
+
     void adjustPassThroughValues (int new_value)
     {
       pass_.setFilterLimits (0.0f, float (new_value) / 10.0f);
       PCL_INFO ("Changed passthrough maximum value to: %f\n", float (new_value) / 10.0f);
     }
-*/
+
   private slots:
     void
     timeoutSlot ();
